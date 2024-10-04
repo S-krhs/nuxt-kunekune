@@ -1,10 +1,3 @@
-<template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage/>
-    </NuxtLayout>
-  </div>
-</template>
 <script setup lang="ts">
   const config = useRuntimeConfig()
   const cdnURL = config.app.cdnURL
@@ -28,3 +21,8 @@
     ]
   })
 </script>
+<template>
+  <NuxtLayout>
+    <NuxtPage/>
+  </NuxtLayout>
+</template>

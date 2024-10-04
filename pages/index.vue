@@ -1,5 +1,7 @@
 <template>
-  <div class="huuuuuuge">クネクネ</div>
+  <div class="page-wrapper">
+    <div class="huuuuuuge">クネクネ</div>
+  </div>
 </template>
 <style scoped>
 .huuuuuuge {
