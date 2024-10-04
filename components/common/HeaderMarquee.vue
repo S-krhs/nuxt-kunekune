@@ -2,7 +2,7 @@
   <div class="header-wrapper">
     <div class="marquee">
       <h2 class="gaming">
-        ～ 脳がふにゃふにゃ氏によるクネクネ駆動開発です ～
+        ～ 脳がふにゃふにゃのクネクネ駆動開発 ～
       </h2>
     </div>
   </div>
