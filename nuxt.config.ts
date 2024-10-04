@@ -7,4 +7,7 @@ export default defineNuxtConfig({
     basicAuthUser: '',
     basicAuthPassword: '',
   },
+  app: {
+    cdnURL: '',
+  },
 })
