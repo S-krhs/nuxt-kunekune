@@ -1,8 +1,0 @@
-{
-  "name": "kunekune-project",
-  "private": true,
-  "workspaces": [
-    "kunekune-driven",
-    "kunekune-admin"
-  ]
-}
