@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  const config = useRuntimeConfig()
+  const cdnURL = config.app.cdnURL
   const signOut = async () => {
-    const res = await $fetch('http://localhost:19797/api/sign-out', {
+    const res = await $fetch(`http://${cdnURL}/api/sign-out`, {
       method: 'GET',
       credentials: 'include',
     })
