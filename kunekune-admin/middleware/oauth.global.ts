@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (to.path === '/login') return
-
+  
   const config = useRuntimeConfig()
   const cdnURL = config.app.cdnURL
   const res = await fetch(`${cdnURL}/api/check-auth`, {
