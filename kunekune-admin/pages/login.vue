@@ -18,7 +18,7 @@
 <template>
   <div>
     <h2>sign in</h2>
-    <p>Please sign in to open the "index".</p>
+    <p>Please sign in to proceed to the index page.</p>
     <p>{{ loginStatus }}</p>
     <p>Test Sample: sample@example.com / kunekune</p>
     <input v-model="email">
@@ -26,6 +26,6 @@
     <button @click="signIn(email, password)">signIn</button>
     <button @click="checkAuth()">checkAuth</button>
     <button @click="signOut()">signOut</button>
-    <NuxtLink to="/"><button>go to index page</button></NuxtLink>
+    <NuxtLink to="/"><button>Go to index page</button></NuxtLink>
   </div>
 </template>
