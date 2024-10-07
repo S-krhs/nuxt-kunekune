@@ -13,7 +13,7 @@
 <template>
   <div>
     <p>index</p>
-    <NuxtLink to="/login"><button>login page</button></NuxtLink>
-    <button @click="signOut()">singOut</button>
+    <NuxtLink to="/login"><button>back to login page</button></NuxtLink>
+    <button @click="signOut()">signOut</button>
   </div>
 </template>
