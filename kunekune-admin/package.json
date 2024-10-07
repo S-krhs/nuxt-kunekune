@@ -15,5 +15,9 @@
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.0.10",
+    "element-plus": "^2.8.4"
   }
 }
