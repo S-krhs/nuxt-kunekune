@@ -1,43 +1,17 @@
 <script setup lang="ts">
+  import { useFetchAuth } from '~/composables/useFetchAuth'
+
   const email = ref<string>('')
   const password = ref<string>('')
-  const loginStatus = ref<string>('ログインしていません')
-
-  const config = useRuntimeConfig()
-  const cdnURL = config.app.cdnURL
-
-  const signIn = async (): Promise<void> => {
-    const res = await $fetch(`${cdnURL}/api/sign-in`, {
-      method: 'POST',
-      body: {
-        email: email.value,
-        password: password.value,
-      },
-    })
-    console.log(res)
-    await navigateTo("/")
-  }
-  const checkSession = async () => {
-    const res = await $fetch(`${cdnURL}/api/check-auth`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    console.log(res)
-    loginStatus.value = 'ログインしています'
-  }
-
-  const signOut = async () => {
-    const res = await $fetch(`${cdnURL}/api/sign-out`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    console.log(res)
-    loginStatus.value = 'ログインしていません'
-    await navigateTo("/login")
-  }
-  
-  onBeforeMount(async () => {
-    await checkSession()
+  const { authStatus, signIn, checkAuth, signOut } = await useFetchAuth()
+  const loginStatus = computed<string>(() => {
+    let loginStatus = '通信中'
+    if (authStatus.value === 'success') {
+      loginStatus = 'ログインしています'
+    } else if (authStatus.value === 'error'){
+      loginStatus = 'ログインしていません'
+    }
+    return loginStatus
   })
 </script>
 
@@ -47,9 +21,9 @@
     <p>{{ loginStatus }}</p>
     <input v-model="email">
     <input v-model="password">
-    <button @click="signIn()">signIn</button>
-    <button @click="checkSession()">checkSession</button>
-    <button @click="signOut()">singOut</button>
+    <button @click="signIn(email, password)">signIn</button>
+    <button @click="checkAuth()">checkAuth</button>
+    <button @click="signOut()">signOut</button>
     <NuxtLink to="/"><button>index</button></NuxtLink>
   </div>
 </template>

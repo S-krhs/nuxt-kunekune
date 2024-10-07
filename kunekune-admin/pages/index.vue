@@ -6,7 +6,6 @@
       method: 'GET',
       credentials: 'include',
     })
-    console.log(res)
     await navigateTo("/login")
   }
 </script>
