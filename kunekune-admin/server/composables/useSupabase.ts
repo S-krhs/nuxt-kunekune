@@ -1,20 +1,34 @@
-import { createClient } from '@supabase/supabase-js'
+import { CookieOptions, createServerClient, parseCookieHeader } from '@supabase/ssr'
+import type { H3Event } from 'h3'
+import { useRequestEvent } from 'nuxt/app'
 
-export const useSupabase = async () => {
+
+export const useSupabase = async (event: H3Event) => {
   const config = useRuntimeConfig()
-  const supabase = createClient(
+  const supabase = createServerClient(
     config.supabaseUrl,
     config.supabaseAnonKey,
+    {
+      cookies: {
+        getAll: () => parseCookieHeader(getHeader(event, 'Cookie') ?? ''),
+        setAll: (
+          cookies: {
+            name: string
+            value: string
+            options: CookieOptions
+          }[],
+        ) => cookies.forEach(({ name, value, options }) => setCookie(event, name, value, options)),
+      }
+    }
   )
 
-  const setSession = async (accessToken: string, refreshToken: string) => {
-    await supabase.auth.setSession({
-      access_token: accessToken,
-      refresh_token: refreshToken,
-    })
+  const getUser = async () => {
     const { data, error } = await supabase.auth.getUser()
 
-    const status = error?.status ?? 200
+    const status = !error?.status
+      ? 200
+      : error?.status === 400
+        ? 401 : error?.status
     return { data, error, status }
   }
 
@@ -24,17 +38,22 @@ export const useSupabase = async () => {
       password: password,
     })
 
-    const status = error?.status ?? 200
+    const status = !error?.status
+      ? 200
+      : error?.status === 400
+        ? 401 : error?.status
     return { data, error, status }
   }
   
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
 
-    const status = error?.status ?? 200
+    const status = !error?.status
+      ? 200
+      : error?.status
     return { error, status }
   }
 
-  return { supabase, setSession, signIn, signOut }
+  return { supabase, getUser, signIn, signOut }
 }
 

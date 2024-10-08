@@ -1,27 +1,24 @@
 import { useSupabase } from "../composables/useSupabase"
 
-const expiresDate = new Date(0)
-const cookieOptions = { httpOnly: true, secure: true, expires: expiresDate, sameSite: true }
-
 export default defineEventHandler(async (event) => {
   try {
-    const { signOut } = await useSupabase(event)
+    const { getUser } = await useSupabase(event)
 
-    // サインアウト
-    const { error, status } = await signOut()
+    // token認証
+    const { data, error, status } = await getUser()
 
-    // サインアウト失敗
+    // 認証失敗
     if (error) {
-      console.error('sign-out.get.ts: ', error)
+      console.error('check-auth.post.ts: ', error)
       event.node.res.statusCode = status
       event.node.res.end(JSON.stringify({ data: null, error: error }))
       return
     }
 
-    // サインアウト成功
+    // 認証成功
     event.node.res.statusCode = 200
-    event.node.res.end(JSON.stringify({ data: null, error: null }))
-
+    event.node.res.end(JSON.stringify({ data: data.user?.aud, error: error, message: null }))
+    
   } catch (error) {
     console.error(error)
     event.node.res.statusCode = 500

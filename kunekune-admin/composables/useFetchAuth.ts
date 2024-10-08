@@ -1,42 +1,24 @@
 import type { AsyncDataRequestStatus } from "#app"
+import { FetchError } from 'ofetch'
+import { getRequestHeader } from 'h3'
 
 export const useFetchAuth = async (immediate: boolean = true) => {
   const config = useRuntimeConfig()
   const cdnURL = config.app.cdnURL
 
-  const accessToken = useCookie('access_token')
-  const refreshToken = useCookie('refresh_token')
+  // SSRの場合はリクエストにcookieを手動追加
+  const headers: {} = import.meta.server
+    ? getRequestHeader(useRequestEvent()!, 'cookie') ? { 'Cookie': String(getRequestHeader(useRequestEvent()!, 'cookie')) } : {}
+    : {}
 
   const { status, execute } = useFetch(`${cdnURL}/api/check-auth`, {
-    method: 'POST',
-    body: {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    },
-    credentials: 'include',
-    immediate: immediate
+    method: 'GET',
+    credentials: 'same-origin',
+    headers: headers,
+    immediate: immediate,
   })
-  const authStatus = computed<AsyncDataRequestStatus>(() => {
-    console.log('Auth status: ', status.value)
-    return status.value
-  })
-
-  const checkAuth = async (accessToken?: string | null | undefined, refreshToken?: string | null | undefined) => {
-    try {
-      await $fetch(`${cdnURL}/api/check-auth`, {
-        method: 'POST',
-        body: {
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-        },
-        credentials: 'include',
-      })
-    } catch (error) {
-      throw(error)
-    } finally {
-      await execute()
-    }
-  }
+  const authStatus = computed<AsyncDataRequestStatus>(() => status.value)
+  const loginError = ref<boolean>(false)
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -46,23 +28,28 @@ export const useFetchAuth = async (immediate: boolean = true) => {
           email: email,
           password: password,
         },
+        credentials: 'same-origin',
       })
+      loginError.value = false
       await navigateTo("/")
     } catch (error) {
-      throw(error)
-    } finally {
-      await execute()
+      if (error instanceof FetchError && error.data.error.code === 'invalid_credentials') {
+        loginError.value = true
+      } else {
+        throw(error)
+      }
     }
   }
 
 
   const signOut = async (): Promise<void> => {
     try {
-      const _results = await $fetch(`${cdnURL}/api/sign-out`, {
+      await $fetch(`${cdnURL}/api/sign-out`, {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'same-origin',
       })
     } catch (error) {
+      console.error(error)
       throw(error)
     } finally {
       await execute()
@@ -71,6 +58,12 @@ export const useFetchAuth = async (immediate: boolean = true) => {
   }
   
 
-  return { authStatus, checkAuth, signIn, signOut, execute }
+  return {
+    authStatus: readonly(authStatus),
+    loginError: readonly(loginError),
+    signIn,
+    signOut,
+    execute
+  }
 }
 
