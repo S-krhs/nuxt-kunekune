@@ -34,7 +34,8 @@ export const useFetchAuth = async (immediate: boolean = true) => {
       await navigateTo("/")
     } catch (error) {
       if (error instanceof FetchError) {
-        console.log(error.data)
+        console.log('Status: ', error.data.error?.status)
+        console.log(error.data.error?.status === 400)
       }
       if (error instanceof FetchError && error.data.error?.status === 400) {
         loginError.value = true
