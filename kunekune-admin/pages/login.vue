@@ -1,20 +1,43 @@
 <script setup lang="ts">
   import { useFetchAuth } from '~/composables/useFetchAuth'
   import { NuxtLink } from '#components'
+  import type { FormInstance, FormRules } from 'element-plus'
 
   // Types
   type LoginFormModel = {
     email: string
     password: string
   }
+
   // Hooks
   const loginFormModel = ref<LoginFormModel>({
     email: '',
     password: '',
   })
-  const { authStatus, loginError, signIn, signOut } = await useFetchAuth()
+  const loginFormRef = ref<FormInstance>()
+  const loginFormRules = reactive<FormRules<LoginFormModel>>({
+    email: [
+      { required: true, message: 'Please input email.', trigger: ['blur', 'change'] },
+      { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] },
+    ],
+    password: [
+      { required: true, message: 'Please input password.', trigger: ['blur', 'change'] },
+    ]
+  })
+  const { authStatus, loginError, setLoginError, signIn, signOut } = await useFetchAuth()
   const signedIn = computed<boolean>(() => authStatus.value==='success')
+
   // Logics
+  const submitLoginForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate((valid) => {
+      if (valid) {
+        signIn(loginFormModel.value.email, loginFormModel.value.password)
+      } else {
+        setLoginError(true)
+      }
+    })
+  }
 
   // Lifecycles
 
@@ -48,7 +71,9 @@
         <el-form
           :model="loginFormModel"
           label-width="64px"
-          class="login-form">
+          class="login-form"
+          ref="loginFormRef"
+          :rules="loginFormRules">
           <el-form-item label="email" prop="email" v-if="!signedIn">
             <el-input
               v-model="loginFormModel.email"
@@ -75,7 +100,7 @@
             <el-button
               type="primary"
               size="large"
-              @click="signIn(loginFormModel.email, loginFormModel.password)"
+              @click="submitLoginForm(loginFormRef)"
               v-if="!signedIn">
               Sign In
             </el-button>

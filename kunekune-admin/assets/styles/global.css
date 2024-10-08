@@ -20,3 +20,10 @@ body {
 ul, ol, li {
   list-style-type: none;
 }
+
+
+/* element-plus override */
+#__nuxt .el-input__inner {
+  color: black;
+}
+

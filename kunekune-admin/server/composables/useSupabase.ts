@@ -1,7 +1,10 @@
 import { CookieOptions, createServerClient, parseCookieHeader } from '@supabase/ssr'
 import type { H3Event } from 'h3'
-import { useRequestEvent } from 'nuxt/app'
 
+const defaultCookieOptions = {
+  httpOnly: true,
+  Secure: true,
+}
 
 export const useSupabase = async (event: H3Event) => {
   const config = useRuntimeConfig()
@@ -17,7 +20,7 @@ export const useSupabase = async (event: H3Event) => {
             value: string
             options: CookieOptions
           }[],
-        ) => cookies.forEach(({ name, value, options }) => setCookie(event, name, value, options)),
+        ) => cookies.forEach(({ name, value, options }) => setCookie(event, name, value, { ...options, ...defaultCookieOptions })),
       }
     }
   )

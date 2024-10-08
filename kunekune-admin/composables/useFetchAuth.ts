@@ -7,9 +7,8 @@ export const useFetchAuth = async (immediate: boolean = true) => {
   const cdnURL = config.app.cdnURL
 
   // SSRの場合はリクエストにcookieを手動追加
-  const headers: {} = import.meta.server
-    ? getRequestHeader(useRequestEvent()!, 'cookie') ? { 'Cookie': String(getRequestHeader(useRequestEvent()!, 'cookie')) } : {}
-    : {}
+  const cookies = import.meta.server ? getRequestHeader(useRequestEvent()!, 'cookie') : undefined
+  const headers: HeadersInit = cookies ? { Cookie: String(cookies) } : {}
 
   const { status, execute } = useFetch(`${cdnURL}/api/check-auth`, {
     method: 'GET',
@@ -19,6 +18,8 @@ export const useFetchAuth = async (immediate: boolean = true) => {
   })
   const authStatus = computed<AsyncDataRequestStatus>(() => status.value)
   const loginError = ref<boolean>(false)
+
+  const setLoginError = (value: boolean) => { loginError.value = value }
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -30,8 +31,8 @@ export const useFetchAuth = async (immediate: boolean = true) => {
         },
         credentials: 'same-origin',
       })
-      loginError.value = false
       await navigateTo("/")
+      loginError.value = false
     } catch (error) {
       if (error instanceof FetchError && error.status === 401) {
         loginError.value = true
@@ -61,6 +62,7 @@ export const useFetchAuth = async (immediate: boolean = true) => {
   return {
     authStatus: readonly(authStatus),
     loginError: readonly(loginError),
+    setLoginError,
     signIn,
     signOut,
     execute
