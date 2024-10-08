@@ -33,7 +33,10 @@ export const useFetchAuth = async (immediate: boolean = true) => {
       loginError.value = false
       await navigateTo("/")
     } catch (error) {
-      if (error instanceof FetchError && error.data.error.code === 'invalid_credentials') {
+      if (error instanceof FetchError) {
+        console.log(error.data)
+      }
+      if (error instanceof FetchError && error.data.error?.status === 400) {
         loginError.value = true
       } else {
         throw(error)
