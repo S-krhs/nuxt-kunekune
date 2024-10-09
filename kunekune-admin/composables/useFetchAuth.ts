@@ -1,14 +1,12 @@
 import type { AsyncDataRequestStatus } from "#app"
 import { FetchError } from 'ofetch'
-import { getRequestHeader } from 'h3'
 
 export const useFetchAuth = async (immediate: boolean = true) => {
   const config = useRuntimeConfig()
   const cdnURL = config.app.cdnURL
 
   // SSRの場合はリクエストにcookieを手動追加
-  const cookies = import.meta.server ? getRequestHeader(useRequestEvent()!, 'cookie') : undefined
-  const headers: HeadersInit = cookies ? { Cookie: String(cookies) } : {}
+  const headers: HeadersInit = useRequestHeaders(['cookie'])
 
   const { status, execute } = useFetch(`${cdnURL}/api/check-auth`, {
     method: 'GET',
