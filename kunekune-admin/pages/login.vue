@@ -52,7 +52,7 @@
 
 <template>
   <div class="page-wrapper">
-    <CommonLoadingPage :is-pending="isPending">
+    <CommonScreenInPending :is-pending="isPending">
       <section class="sign-in-section">
         <div class="sign-in-wrapper">
           <h1 class="sign-in-title">Sign In</h1>
@@ -126,7 +126,7 @@
           <p>sample@example.com / kunekune</p>
         </div>
       </section>
-    </CommonLoadingPage>
+    </CommonScreenInPending>
   </div>
 </template>
 
