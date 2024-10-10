@@ -29,7 +29,6 @@
   // 認証ステータス関連
   const { isPending, signIn, signOut, executeUseFetchAuth } = await useFetchAuth({ immediate: false })
   const { isSignedIn } = useSession()
-  const { isTransmitting } = useLoading()
 
   // サインインエラー表示
   const signInError = ref<boolean>(false)
@@ -53,82 +52,80 @@
 
 <template>
   <div class="page-wrapper">
-    <CommonLoadingPage :is-loading="isPending">
-      <CommonLoadingPageOverlay :is-loading="isTransmitting">
-        <section class="sign-in-section">
-          <div class="sign-in-wrapper">
-            <h1 class="sign-in-title">Sign In</h1>
-            <div class="sign-in-message">
-              <el-alert
-                :title="'The email or password you entered is incorrect.\nPlease try again.'"
-                type="error"
-                :closable="false"
-                show-icon
-                v-if="signInError"
-              />
-              <el-alert
-                :title="'You are already signed in.\nPlease continue using the current account or sign out.'"
-                type="info"
-                :closable="false"
-                show-icon
-                v-if="isSignedIn"
-              />
-            </div>
-            <div class="sign-in-description" v-if="!isSignedIn">
-              <p>Please enter your email and password.</p>
-            </div>
-            <el-form
-              :model="signInFormModel"
-              label-width="64px"
-              class="sign-in-form"
-              ref="signInFormRef"
-              :rules="signInFormRules">
-              <el-form-item label="email" prop="email" v-if="!isSignedIn">
-                <el-input
-                  v-model="signInFormModel.email"
-                  type="email"
-                  maxlength="100"
-                  autocomplete="off" />
-              </el-form-item>
-              <el-form-item label="password" prop="password" v-if="!isSignedIn">
-                <el-input
-                  v-model="signInFormModel.password"
-                  type="password"
-                  maxlength="100"
-                  autocomplete="off" />
-              </el-form-item>
-              <div class="sign-in-buttons-wrapper">
-                <el-button
-                  type="primary"
-                  size="large"
-                  :tag="NuxtLink"
-                  to="/"
-                  v-if="isSignedIn">
-                  Continue
-                </el-button>
-                <el-button
-                  type="primary"
-                  size="large"
-                  @click="submitSignInForm(signInFormRef)"
-                  v-if="!isSignedIn">
-                  Sign In
-                </el-button>
-                <el-button
-                  type="default"
-                  size="large"
-                  :disabled="!isSignedIn"
-                  @click="signOut()">
-                  Sign Out
-                </el-button>
-              </div>
-            </el-form>
+    <CommonLoadingPage :is-pending="isPending">
+      <section class="sign-in-section">
+        <div class="sign-in-wrapper">
+          <h1 class="sign-in-title">Sign In</h1>
+          <div class="sign-in-message">
+            <el-alert
+              :title="'The email or password you entered is incorrect.\nPlease try again.'"
+              type="error"
+              :closable="false"
+              show-icon
+              v-if="signInError"
+            />
+            <el-alert
+              :title="'You are already signed in.\nPlease continue using the current account or sign out.'"
+              type="info"
+              :closable="false"
+              show-icon
+              v-if="isSignedIn"
+            />
           </div>
-          <div class="sign-in-sub" v-if="!isSignedIn">
-            <p>* To test limited features, use this account.</p>
-            <p>sample@example.com / kunekune</p>
+          <div class="sign-in-description" v-if="!isSignedIn">
+            <p>Please enter your email and password.</p>
           </div>
-        </section>
-      </CommonLoadingPageOverlay>
+          <el-form
+            :model="signInFormModel"
+            label-width="64px"
+            class="sign-in-form"
+            ref="signInFormRef"
+            :rules="signInFormRules">
+            <el-form-item label="email" prop="email" v-if="!isSignedIn">
+              <el-input
+                v-model="signInFormModel.email"
+                type="email"
+                maxlength="100"
+                autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="password" prop="password" v-if="!isSignedIn">
+              <el-input
+                v-model="signInFormModel.password"
+                type="password"
+                maxlength="100"
+                autocomplete="off" />
+            </el-form-item>
+            <div class="sign-in-buttons-wrapper">
+              <el-button
+                type="primary"
+                size="large"
+                :tag="NuxtLink"
+                to="/"
+                v-if="isSignedIn">
+                Continue
+              </el-button>
+              <el-button
+                type="primary"
+                size="large"
+                @click="submitSignInForm(signInFormRef)"
+                v-if="!isSignedIn">
+                Sign In
+              </el-button>
+              <el-button
+                type="default"
+                size="large"
+                :disabled="!isSignedIn"
+                @click="signOut()">
+                Sign Out
+              </el-button>
+            </div>
+          </el-form>
+        </div>
+        <div class="sign-in-sub" v-if="!isSignedIn">
+          <p>* To test limited features, use this account.</p>
+          <p>sample@example.com / kunekune</p>
+        </div>
+      </section>
     </CommonLoadingPage>
   </div>
 </template>

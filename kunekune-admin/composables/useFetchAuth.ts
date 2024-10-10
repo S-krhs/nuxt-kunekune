@@ -28,7 +28,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
   
   // 認証エラー条件
   const isUnauthorized = (error: unknown) => {
-    console.log(error, error instanceof FetchError, error instanceof FetchError ? error.status : null)
     return (error instanceof FetchError && error.status === 401)
   }
 

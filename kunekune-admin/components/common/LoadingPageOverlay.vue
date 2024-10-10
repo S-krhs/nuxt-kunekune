@@ -4,10 +4,8 @@
   }>()
 </script>
 <template>
-  <div>
-    <div v-loading.fullscreen.lock="isLoading">
-      <slot></slot>
-    </div>
+  <div v-loading.fullscreen.lock="isLoading">
+    <slot></slot>
   </div>
 </template>
 <style scoped>

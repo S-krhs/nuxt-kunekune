@@ -1,5 +1,11 @@
+<script setup lang="ts">
+  const { isTransmitting } = useLoading()
+</script>
+
 <template>
   <main>
-    <slot></slot>
+    <CommonLoadingPageOverlay :is-loading="isTransmitting">
+      <slot></slot>
+    </CommonLoadingPageOverlay>
   </main>
 </template>
