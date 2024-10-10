@@ -4,8 +4,8 @@
 
 <template>
   <div>
-    <p>index</p>
-    <NuxtLink to="/second"><button>second</button></NuxtLink>
+    <p>second</p>
+    <NuxtLink to="/"><button>index</button></NuxtLink>
     <NuxtLink to="/login"><button>back to signIn page</button></NuxtLink>
     <button @click="signOut()">signOut</button>
   </div>

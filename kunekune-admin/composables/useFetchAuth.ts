@@ -1,7 +1,11 @@
-import type { AsyncDataRequestStatus } from "#app"
 import { FetchError } from 'ofetch'
 
-export const useFetchAuth = async (immediate: boolean = true) => {
+export type UseFetchAuth = {
+  immediate: boolean;
+}
+
+export const useFetchAuth = async (opts?: UseFetchAuth) => {
+
   const config = useRuntimeConfig()
   const cdnURL = config.app.cdnURL
 
@@ -12,14 +16,44 @@ export const useFetchAuth = async (immediate: boolean = true) => {
     method: 'GET',
     credentials: 'same-origin',
     headers: headers,
-    immediate: immediate,
+    immediate: opts?.immediate ?? true,
   })
-  const authStatus = computed<AsyncDataRequestStatus>(() => status.value)
-  const loginError = ref<boolean>(false)
 
-  const setLoginError = (value: boolean) => { loginError.value = value }
+  // サインインステータス
+  const { setSignedIn } = useSession()
 
+  // 通信中
+  const isPending = computed<boolean>(() => status.value === 'idle' || status.value === 'pending')
+  const { setTransmitting } = useLoading()
+  
+  // 認証エラー条件
+  const isUnauthorized = (error: unknown) => {
+    console.log(error, error instanceof FetchError, error instanceof FetchError ? error.status : null)
+    return (error instanceof FetchError && error.status === 401)
+  }
+
+  // 認証チェック
+  const executeUseFetchAuth = async () => {
+    setTransmitting(true)
+    try {
+      await execute()
+    } catch (error) {
+      if (!isUnauthorized(error)) {
+        throw(error)
+      }
+    } finally {
+      if (status.value === 'success') {
+        setSignedIn(true)
+      } else {
+        setSignedIn(false)
+      }
+      setTransmitting(false)
+    }
+  }
+
+  // サインイン
   const signIn = async (email: string, password: string): Promise<void> => {
+    setTransmitting(true)
     try {
       await $fetch(`${cdnURL}/api/sign-in`, {
         method: 'POST',
@@ -30,18 +64,19 @@ export const useFetchAuth = async (immediate: boolean = true) => {
         credentials: 'same-origin',
       })
       await navigateTo("/")
-      loginError.value = false
+      setSignedIn(true)
     } catch (error) {
-      if (error instanceof FetchError && error.status === 401) {
-        loginError.value = true
-      } else {
+      if (!isUnauthorized(error)) {
         throw(error)
       }
+    } finally {
+      setTransmitting(false)
     }
   }
 
-
+  // サインアウト
   const signOut = async (): Promise<void> => {
+    setTransmitting(true)
     try {
       await $fetch(`${cdnURL}/api/sign-out`, {
         method: 'GET',
@@ -51,19 +86,19 @@ export const useFetchAuth = async (immediate: boolean = true) => {
       console.error(error)
       throw(error)
     } finally {
-      await execute()
+      setSignedIn(false)
+      setTransmitting(false)
       await navigateTo("/login")
     }
   }
   
 
   return {
-    authStatus: readonly(authStatus),
-    loginError: readonly(loginError),
-    setLoginError,
+    status: readonly(status),
+    isPending: readonly(isPending),
     signIn,
     signOut,
-    execute
+    executeUseFetchAuth,
   }
 }
 

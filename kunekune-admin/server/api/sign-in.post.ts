@@ -5,6 +5,8 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const email = body.email
     const password = body.password
+
+    // await new Promise(resolve => setTimeout(resolve, 1000))
   
     const { signIn } = await useSupabase(event)
     

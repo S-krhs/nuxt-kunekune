@@ -7,6 +7,8 @@ export default defineEventHandler(async (event) => {
   try {
     const { signOut } = await useSupabase(event)
 
+    // await new Promise(resolve => setTimeout(resolve, 1000))
+
     // サインアウト
     const { error, status } = await signOut()
 

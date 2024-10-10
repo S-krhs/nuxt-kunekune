@@ -4,6 +4,8 @@ export default defineEventHandler(async (event) => {
   try {
     const { getUser } = await useSupabase(event)
 
+    // await new Promise(resolve => setTimeout(resolve, 1000))
+
     // token認証
     const { data, error, status } = await getUser()
 
