@@ -21,6 +21,16 @@ ul, ol, li {
   list-style-type: none;
 }
 
+/* FOUC対策 */
+.fouc-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+.fouc-visible {
+  visibility: visible;
+  opacity: 1;
+  transition-duration: 0.5s;
+}
 
 /* element-plus override */
 #__nuxt .el-input__inner {
