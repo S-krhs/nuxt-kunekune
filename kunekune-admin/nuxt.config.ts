@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     basicAuthPassword: '',
     supabaseUrl: '',
     supabaseAnonKey: '',
+    public: {
+      environmentName: ''
+    }
   },
   app: {
     cdnURL: '',

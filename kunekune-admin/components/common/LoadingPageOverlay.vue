@@ -4,9 +4,7 @@
   }>()
 </script>
 <template>
-  <div v-loading.fullscreen.lock="isLoading">
-    <slot></slot>
-  </div>
+  <div v-loading.fullscreen.lock="isLoading"></div>
 </template>
 <style scoped>
 .loading {

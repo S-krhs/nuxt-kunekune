@@ -1,4 +1,6 @@
 import { FetchError } from 'ofetch'
+import { apiPathCheckAuth, apiPathSignIn, apiPathSignOut } from '~/constants/paths';
+import type { BaseApiResponse } from '~/server/types/api';
 
 export type UseFetchAuth = {
   immediate: boolean;
@@ -6,13 +8,10 @@ export type UseFetchAuth = {
 
 export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
-  const config = useRuntimeConfig()
-  const cdnURL = config.app.cdnURL
-
   // SSRの場合はリクエストにcookieを手動追加
   const headers: HeadersInit = useRequestHeaders(['cookie'])
 
-  const { status, execute } = useFetch(`${cdnURL}/api/check-auth`, {
+  const { status, execute } = useFetch<BaseApiResponse>(apiPathCheckAuth, {
     method: 'GET',
     credentials: 'same-origin',
     headers: headers,
@@ -22,8 +21,10 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
   // サインインステータス
   const { setSignedIn } = useSession()
 
-  // 通信中
+  // ステータス更新中フラグ
   const isPending = computed<boolean>(() => status.value === 'idle' || status.value === 'pending')
+
+  // 通信中フラグ
   const { setTransmitting } = useLoading()
   
   // 認証エラー条件
@@ -33,8 +34,8 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
   // 認証チェック
   const executeUseFetchAuth = async () => {
-    setTransmitting(true)
     try {
+      setTransmitting(true)
       await execute()
     } catch (error) {
       if (!isUnauthorized(error)) {
@@ -52,9 +53,9 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
   // サインイン
   const signIn = async (email: string, password: string): Promise<void> => {
-    setTransmitting(true)
     try {
-      await $fetch(`${cdnURL}/api/sign-in`, {
+      setTransmitting(true)
+      await $fetch(apiPathSignIn, {
         method: 'POST',
         body: {
           email: email,
@@ -75,9 +76,9 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
   // サインアウト
   const signOut = async (): Promise<void> => {
-    setTransmitting(true)
     try {
-      await $fetch(`${cdnURL}/api/sign-out`, {
+      setTransmitting(true)
+      await $fetch(apiPathSignOut, {
         method: 'GET',
         credentials: 'same-origin',
       })
@@ -91,7 +92,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
     }
   }
   
-
   return {
     status: readonly(status),
     isPending: readonly(isPending),
