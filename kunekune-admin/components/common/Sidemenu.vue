@@ -7,10 +7,9 @@
 </script>
 
 <template>
-  <menu>
+  <menu v-cloak>
     <el-menu
       class="sidemenu"
-
       @select="selectMenuItem">
       <el-menu-item index="/">
         <el-icon><setting /></el-icon>

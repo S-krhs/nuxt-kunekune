@@ -1,11 +1,11 @@
-import { sleep } from "~/utils/develop/sleep"
+import { devSleep } from "~/utils/develop/sleep"
 import { useSupabase } from "../composables/useSupabase"
 
 export default defineEventHandler(async (event) => {
   try {
     const { signOut } = await useSupabase(event)
 
-    await sleep(1000)
+    await devSleep(1000)
 
     // サインアウト
     const { error, status } = await signOut()

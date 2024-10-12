@@ -10,7 +10,7 @@
   const iconSrc = "https://pbs.twimg.com/profile_images/1844529189346832384/6qLCsPk8_400x400.jpg"
 </script>
 <template>
-  <header>
+  <header v-cloak>
     <div class="header-wrapper">
       <ul class="header-content">
         <li>
