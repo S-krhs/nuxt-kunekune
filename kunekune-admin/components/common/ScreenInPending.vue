@@ -4,5 +4,7 @@
   }>()
 </script>
 <template>
-  <div v-if="!isPending"></div>
+  <div v-if="!isPending">
+    <slot></slot>
+  </div>
 </template>

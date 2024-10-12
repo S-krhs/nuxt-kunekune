@@ -3,9 +3,8 @@
 </script>
 
 <template>
-  <main>
-    <CommonLoadingPageOverlay :is-loading="isTransmitting">
-      <slot></slot>
-    </CommonLoadingPageOverlay>
-  </main>
+  <div>
+    <CommonLoadingPageOverlay :is-loading="isTransmitting" />
+    <slot></slot>
+  </div>
 </template>
