@@ -19,10 +19,9 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1.0',
     },
   },
-  modules: ['@element-plus/nuxt'],
-  elementPlus: {
-    themes: ['dark'],
-  },
+  modules: [
+    '@element-plus/nuxt',
+  ],
   css: [
     '~/assets/styles/global.css'
   ],
