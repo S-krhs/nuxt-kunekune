@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <CommonLoadingPageOverlay :is-loading="isTransmitting" />
+  <CommonLoadingPageOverlayDelayed :is-loading="isTransmitting" />
   <div class="main-layout">
     <CommonHeader class="header-pos"></CommonHeader>
     <CommonSidemenu class="sidemenu-pos"></CommonSidemenu>
