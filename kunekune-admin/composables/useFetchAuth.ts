@@ -1,6 +1,6 @@
 import { FetchError } from 'ofetch'
-import { apiPathCheckAuth, apiPathSignIn, apiPathSignOut } from '~/constants/paths';
-import type { BaseApiResponse } from '~/server/types/api';
+import { apiPathCheckAuth, apiPathSignIn, apiPathSignOut } from '@/constants/paths';
+import type { BaseApiResponse } from '@/server/types/api';
 
 export type UseFetchAuth = {
   immediate: boolean;

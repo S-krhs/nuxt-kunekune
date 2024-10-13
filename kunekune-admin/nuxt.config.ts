@@ -23,6 +23,6 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
   ],
   css: [
-    '~/assets/styles/global.css'
+    '@/assets/styles/global.css'
   ],
 })

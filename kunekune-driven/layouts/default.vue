@@ -23,7 +23,7 @@
 <style scoped>
 .background-gif {
   background-color: black;
-  background-image: url('~/assets/images/background/k-yuki10-ma.gif')
+  background-image: url('@/assets/images/background/k-yuki10-ma.gif')
 }
 
 .app {

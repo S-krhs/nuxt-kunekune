@@ -24,7 +24,7 @@
 <style scoped>
 .menu-wrapper {
   min-height: 100%;
-  background-image: url('~/assets/images/background/check-background.jpg');
+  background-image: url('@/assets/images/background/check-background.jpg');
 }
 li {
   height: 100px;

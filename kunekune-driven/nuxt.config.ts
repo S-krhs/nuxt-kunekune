@@ -15,6 +15,6 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    '~/assets/styles/global.css'
+    '@/assets/styles/global.css'
   ],
 })
