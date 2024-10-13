@@ -1,17 +1,11 @@
 <script setup lang="ts">
   const { isTransmitting } = useLoading()
-
-  // FOUC対策
-  const beforeLoad = ref<boolean>(true)
-  onMounted(() => {
-    beforeLoad.value = false
-  })
 </script>
 
 <template>
   <div>
-    <CommonLoadingPageOverlay :is-loading="isTransmitting || beforeLoad" />
-    <div :class="[ beforeLoad ? 'fouc-hidden' : 'fouc-visible']">
+    <CommonLoadingPageOverlay :is-loading="isTransmitting" />
+    <div>
       <slot></slot>
     </div>
   </div>

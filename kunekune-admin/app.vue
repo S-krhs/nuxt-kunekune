@@ -5,9 +5,17 @@
   useServerHead({
     title: title,
   })
+
+  // FOUC対策
+  const beforeLoad = ref<boolean>(true)
+  onMounted(() => {
+    beforeLoad.value = false
+  })
 </script>
 <template>
-  <NuxtLayout >
-    <NuxtPage />
-  </NuxtLayout>
+  <div :class="[ beforeLoad ? 'fouc-hidden' : 'fouc-visible']">
+    <NuxtLayout >
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
