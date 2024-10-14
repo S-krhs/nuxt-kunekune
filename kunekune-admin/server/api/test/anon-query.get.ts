@@ -1,19 +1,12 @@
-import { useSupabase } from "@/server/composables/useSupabase"
+import { createBrowserClient } from '@supabase/ssr'
 
 export default defineEventHandler(async (event) => {
   try {
-    const { supabase, getUser } = await useSupabase(event)
-
-    // token認証
-    const { data: userData, error: userError, status: userStatus } = await getUser()
-
-    // 認証失敗
-    if (userError) {
-      console.error('check-auth.post.ts: ', userError)
-      event.node.res.statusCode = userStatus
-      event.node.res.end(JSON.stringify({ data: null, error: userError, message: null }))
-      return
-    }
+    const config = useRuntimeConfig()
+    const supabase = createBrowserClient(
+      config.supabaseUrl,
+      config.supabaseAnonKey
+    )
 
     // クエリ実行
     const { data, error, status } = await supabase
@@ -23,7 +16,7 @@ export default defineEventHandler(async (event) => {
     console.log(data, error, status)
 
     if (error) {
-      console.error('test-query.ts: ', error)
+      console.error('test-anon-query.ts: ', error)
       event.node.res.statusCode = status
       event.node.res.end(JSON.stringify({ data: null, error: error, message: null }))
       return

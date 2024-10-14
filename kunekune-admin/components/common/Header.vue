@@ -3,11 +3,26 @@
   import githubMark from '@/assets/images/icons/github-mark.png'
   import supabaseLogoIcon from '@/assets/images/icons/supabase-logo-icon.png'
   import vercelIconDark from '@/assets/images/icons/vercel-icon-dark.png'
-  import { urlKunekuneDriven, urlGitHubRepository, urlVercelProjects, urlSupabaseProjects } from '@/constants/paths'
+  import { urlKunekuneDriven, urlGitHubRepository, urlVercelProjects, urlSupabaseProjects, urlErrorPage } from '@/constants/paths'
   import { openNewTab } from '@/utils/routes/pages'
 
-  const { signOut } = await useFetchAuth({ immediate: false })
+  const { signOut: _signOut } = await useFetchAuth({ immediate: false })
   const iconSrc = "https://pbs.twimg.com/profile_images/1844529189346832384/6qLCsPk8_400x400.jpg"
+  
+  // サインアウト処理
+  const { setTransmitting } = useLoading()
+  const signOut = async () => {
+    try {
+      setTransmitting(true)
+      await _signOut()
+    } catch (error) {
+      console.error (error)
+      await navigateTo(urlErrorPage)
+    } finally {
+      setTransmitting(false)
+    }
+  }
+
 </script>
 <template>
   <header>

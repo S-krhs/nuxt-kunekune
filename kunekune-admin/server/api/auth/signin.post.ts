@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const email = body.email
     const password = body.password
 
-    // await devSleep(1000)
+    await devSleep(1000)
   
     const { signIn } = await useSupabase(event)
     

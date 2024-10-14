@@ -35,7 +35,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
   // 認証チェック
   const executeUseFetchAuth = async () => {
     try {
-      setTransmitting(true)
       await execute()
     } catch (error) {
       if (!isUnauthorized(error)) {
@@ -47,14 +46,12 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
       } else {
         setSignedIn(false)
       }
-      setTransmitting(false)
     }
   }
 
   // サインイン
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
-      setTransmitting(true)
       await $fetch(apiPathSignIn, {
         method: 'POST',
         body: {
@@ -69,15 +66,12 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
       if (!isUnauthorized(error)) {
         throw(error)
       }
-    } finally {
-      setTransmitting(false)
     }
   }
 
   // サインアウト
   const signOut = async (): Promise<void> => {
     try {
-      setTransmitting(true)
       await $fetch(apiPathSignOut, {
         method: 'GET',
         credentials: 'same-origin',
@@ -87,7 +81,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
       throw(error)
     } finally {
       setSignedIn(false)
-      setTransmitting(false)
       await navigateTo("/login")
     }
   }

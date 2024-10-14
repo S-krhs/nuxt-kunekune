@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { NuxtLink } from '#components'
   import type { FormInstance, FormRules } from 'element-plus'
+import { urlErrorPage } from '~/constants/paths';
 
   definePageMeta({ layout: 'login-layout' })
 
@@ -27,21 +28,45 @@
   })
 
   // 認証ステータス関連
-  const { isPending, signIn, signOut, executeUseFetchAuth } = await useFetchAuth({ immediate: false })
+  const { isPending, signIn, signOut: _signOut, executeUseFetchAuth } = await useFetchAuth({ immediate: false })
   const { isSignedIn } = useSession()
+
+  // ローディング表示
+  const { setTransmitting } = useLoading()
 
   // サインインエラー表示
   const signInError = ref<boolean>(false)
 
   // サインイン処理
   const submitSignInForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) {
-      signInError.value = true
-    } else {
-      await formEl.validate(async (valid) => {
-        if (valid) { await signIn(signInFormModel.value.email, signInFormModel.value.password) }
-        if (!isSignedIn.value) { signInError.value = true }
-      })
+    try {
+      setTransmitting(true)
+      if (!formEl) {
+        signInError.value = true
+      } else {
+        await formEl.validate(async (valid) => {
+          if (valid) { await signIn(signInFormModel.value.email, signInFormModel.value.password) }
+          if (!isSignedIn.value) { signInError.value = true }
+        })
+      }
+    } catch (error) {
+      console.error (error)
+      await navigateTo(urlErrorPage)
+    } finally {
+      setTransmitting(false)
+    }
+  }
+
+  // サインアウト処理
+  const signOut = async () => {
+    try {
+      setTransmitting(true)
+      await _signOut()
+    } catch (error) {
+      console.error (error)
+      await navigateTo(urlErrorPage)
+    } finally {
+      setTransmitting(false)
     }
   }
 

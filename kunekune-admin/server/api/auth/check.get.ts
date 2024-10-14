@@ -3,25 +3,25 @@ import { useSupabase } from "@/server/composables/useSupabase"
 
 export default defineEventHandler(async (event) => {
   try {
-    const { signOut } = await useSupabase(event)
+    const { getUser } = await useSupabase(event)
 
-    // await devSleep(1000)
+    await devSleep(1000)
 
-    // サインアウト
-    const { error, status } = await signOut()
+    // token認証
+    const { data, error, status } = await getUser()
 
-    // サインアウト失敗
+    // 認証失敗
     if (error) {
-      console.error('sign-out.get.ts: ', error)
+      console.error('check-auth.post.ts: ', error)
       event.node.res.statusCode = status
       event.node.res.end(JSON.stringify({ data: null, error: error, message: null }))
       return
     }
 
-    // サインアウト成功
+    // 認証成功
     event.node.res.statusCode = 200
-    event.node.res.end(JSON.stringify({ data: null, error: null, message: null }))
-
+    event.node.res.end(JSON.stringify({ data: data.user?.aud ?? null, error: error, message: null }))
+    
   } catch (error) {
     console.error(error)
     event.node.res.statusCode = 500

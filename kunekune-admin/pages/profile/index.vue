@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { BaseApiResponse } from '@/server/types/api'
 
-  const { data, status, execute } = useFetch<BaseApiResponse>('/api/test/query', {
+  const { data: data1 } = useFetch<BaseApiResponse>('/api/test/query', {
+    method: 'GET',
+    credentials: 'same-origin',
+  })
+
+  const { data: data2 } = useFetch<BaseApiResponse>('/api/test/anon-query', {
     method: 'GET',
     credentials: 'same-origin',
   })
@@ -10,8 +15,8 @@ import type { BaseApiResponse } from '@/server/types/api'
 
 <template>
   <div>
-    <div>{{ data }}</div>
-    <div>{{ status }}</div>
+    <div>{{ data1 }}</div>
+    <div>{{ data2 }}</div>
   </div>
 </template>
 
