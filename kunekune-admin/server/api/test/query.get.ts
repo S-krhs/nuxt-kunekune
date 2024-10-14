@@ -2,23 +2,21 @@ import { useSupabase } from "@/server/composables/useSupabase"
 
 export default defineEventHandler(async (event) => {
   try {
-    const { supabase, getUser } = await useSupabase(event)
-
-    // token認証
-    const { data: userData, error: userError, status: userStatus } = await getUser()
-
-    // 認証失敗
-    if (userError) {
-      console.error('check-auth.post.ts: ', userError)
-      event.node.res.statusCode = userStatus
-      event.node.res.end(JSON.stringify({ data: null, error: userError, message: null }))
-      return
-    }
+    const { supabase } = await useSupabase(event)
 
     // クエリ実行
     const { data, error, status } = await supabase
-      .from('permissions')
-      .select('permission_name')
+      .from('profiles')
+      .select(`
+        tenant_id,
+        profile_history_id(
+          name,
+          introduction,
+          profile_image_id(
+            url
+          )
+        )
+      `)
 
     console.log(data, error, status)
 

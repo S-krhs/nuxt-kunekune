@@ -10,8 +10,18 @@ export default defineEventHandler(async (event) => {
 
     // クエリ実行
     const { data, error, status } = await supabase
-      .from('permissions')
-      .select('permission_name')
+      .from('profiles')
+      .select(`
+        tenant_id,
+        profile_history_id(
+          name,
+          introduction,
+          profile_image_id(
+            url
+          )
+        )
+      `)
+
 
     console.log(data, error, status)
 
