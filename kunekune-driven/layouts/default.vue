@@ -11,7 +11,7 @@
         <CommonHeaderMarquee />
       </header>
       <menu>
-        <CommonMenu />
+        <CommonSideMenu />
       </menu>
       <main>
         <NuxtPage />

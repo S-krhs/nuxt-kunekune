@@ -1,3 +1,8 @@
+<script setup lang="ts">
+
+</script>
+
+
 <template>
   <div class="page-wrapper">
     <div class="huuuuuuge">クネクネ</div>

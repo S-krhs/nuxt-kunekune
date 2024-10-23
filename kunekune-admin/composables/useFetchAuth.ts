@@ -1,6 +1,6 @@
 import { FetchError } from 'ofetch'
 import { apiPathCheckAuth, apiPathSignIn, apiPathSignOut } from '@/constants/paths';
-import type { BaseApiResponse } from '@/server/types/api';
+import type { BaseApiResponse } from '~/types/api';
 
 export type UseFetchAuth = {
   immediate: boolean;
@@ -21,7 +21,7 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
   // SSRの場合はリクエストにcookieを手動追加
   const headers: HeadersInit = useRequestHeaders(['cookie'])
 
-  const { status, execute } = useFetch<BaseApiResponse>(apiPathCheckAuth, {
+  const { status, execute } = useFetch<BaseApiResponse<string>>(apiPathCheckAuth, {
     method: 'GET',
     credentials: 'same-origin',
     headers: headers,

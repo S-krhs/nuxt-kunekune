@@ -1,8 +1,20 @@
+<script setup lang="ts">
+  import type { BaseApiResponse } from '~/types/api/base'
+  import type { Profile } from '~/types/api/profile'
+
+  const { data } = await useFetch<BaseApiResponse<Profile>>('/api/profile/get', {
+    method: 'GET',
+    credentials: 'same-origin',
+    server: false,
+  })
+  const headerText = computed<string>(() => data.value?.data?.header_text ?? '')
+</script>
+
 <template>
   <div class="header-wrapper">
     <div class="marquee">
       <h2 class="gaming">
-        ～ 脳がふにゃふにゃのクネクネ駆動開発 ～
+        {{ headerText }}
       </h2>
     </div>
   </div>

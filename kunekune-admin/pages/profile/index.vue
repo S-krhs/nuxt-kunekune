@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { BaseApiResponse } from '@/server/types/api'
+import type { BaseApiResponse } from '~/types/api'
 
-  const { data: data1 } = useFetch<BaseApiResponse>('/api/test/query', {
+  const { data: data1 } = useFetch<BaseApiResponse<any>>('/api/test/query', {
     method: 'GET',
     credentials: 'same-origin',
   })

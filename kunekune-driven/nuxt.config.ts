@@ -6,6 +6,13 @@ export default defineNuxtConfig({
     basicAuthRequire: '',
     basicAuthUser: '',
     basicAuthPassword: '',
+    supabaseUrl: '',
+    supabaseAnonKey: '',
+    supabaseEmail: '',
+    supabasePassword: '',
+    public: {
+      environmentName: ''
+    }
   },
   app: {
     cdnURL: '',
@@ -16,5 +23,5 @@ export default defineNuxtConfig({
   },
   css: [
     '@/assets/styles/global.css'
-  ],
+  ]
 })
