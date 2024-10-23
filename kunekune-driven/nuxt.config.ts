@@ -3,9 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: false },
   runtimeConfig: {
-    basicAuthRequire: '',
-    basicAuthUser: '',
-    basicAuthPassword: '',
     supabaseUrl: '',
     supabaseAnonKey: '',
     supabaseEmail: '',

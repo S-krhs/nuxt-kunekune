@@ -64,7 +64,7 @@ header {
 }
 menu {
   grid-area: sidemenu;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 @media screen and (max-width: 768px){
   menu {

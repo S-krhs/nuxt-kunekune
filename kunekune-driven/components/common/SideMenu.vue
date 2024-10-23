@@ -1,12 +1,16 @@
 <script setup lang="ts">
-  import axios from 'axios'
   import type { BaseApiResponse } from '~/types/api/base'
+  import type { Link } from '~/types/api/links'
   import type { Profile } from '~/types/api/profile'
 
   const profile = ref<Profile | null>()
+  const links = ref<Link[] | null>()
+
+  const { axiosClient } = useAxiosClient()
 
   onMounted(async () => {
-    profile.value = await axios<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data)
+    profile.value = await axiosClient<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data)
+    links.value = await axiosClient<BaseApiResponse<Link[]>>('/api/profile/links').then(res => res.data.data)
   })
 </script>
 
@@ -17,11 +21,10 @@
         <p>あなたは</p>
         <div class="access-counter-pos">12345678</div>
         <p>人目の訪問者です</p>
-        <!-- そんなわけないだろ(ゴンテテ日記) -->
       </div>
       <div class="profile">
         <div class="my-name">
-          <h4>{{ profile?.profile_name }}</h4>
+          <h4>{{ profile?.profile_name ?? '' }}</h4>
         </div>
         <div class="my-icon-pos">
           <img class="my-icon-img" :alt="profile?.image_alt ?? 'icon'" :src="profile?.image_url" />
@@ -34,36 +37,30 @@
       <nav class="sidemenu-links">
         <ul class="sidemenu-main-contents">
           <li class="headline">
-            Main Contents
+            <h3>メインコンテンツ</h3>
           </li>
           <li class="link">
             <NuxtLink to="/">トップ</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/">日記</NuxtLink>
+            <NuxtLink to="/diary">日記</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/">ブログ</NuxtLink>
+            <NuxtLink to="/blog">ブログ</NuxtLink>
           </li>
           <li class="link">
             <NuxtLink to="/works">イラスト</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/">リンク集</NuxtLink>
+            <NuxtLink to="/links">リンク集</NuxtLink>
           </li>
         </ul>
         <ul class="sidemenu-external-links">
           <li class="headline">
-            Links
+            <h3>その他リンク</h3>
           </li>
-          <li class="link">
-            <a href="/">Twitter</a>
-          </li>
-          <li class="link">
-            <a href="/">pixiv</a>
-          </li>
-          <li class="link">
-            <a href="/">GitHub</a>
+          <li class="link" v-for="link in links">
+            <a :href="link.external_link_url" target="_blank">{{ link.external_link_display }}</a>
           </li>
         </ul>
       </nav>
@@ -107,11 +104,13 @@
 .my-name {
   text-align: center;
   font-size: large;
+  height: 32px;
 }
 .my-icon-pos {
   margin: auto;
   width: 172px;
   height: 172px;
+  /* background-color: #cccccc; */
 }
 .my-icon-img {
   width: 100%;
@@ -121,6 +120,7 @@
   margin-top: 16px;
   margin-bottom: 12px;
   text-align: center;
+  height: 80px;
 }
 .my-introduction > h4 {
   margin-bottom: 4px;
@@ -139,10 +139,6 @@
   margin-bottom: 8px;
 }
 .headline {
-  font-family: Monotype Corsiva;
-  font-style: italic;
-  font-size: x-large;
-  font-weight: 600;
   margin-left: 10px;
 }
 .link{
