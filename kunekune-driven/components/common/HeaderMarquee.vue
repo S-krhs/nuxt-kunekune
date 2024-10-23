@@ -1,13 +1,13 @@
 <script setup lang="ts">
+  import axios from 'axios'
   import type { BaseApiResponse } from '~/types/api/base'
   import type { Profile } from '~/types/api/profile'
-
-  const { data } = await useFetch<BaseApiResponse<Profile>>('/api/profile/get', {
-    method: 'GET',
-    credentials: 'same-origin',
-    server: false,
+  
+  const headerText = ref<string | null>()
+  
+  onMounted(async () => {
+    headerText.value = await axios<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data?.header_text)
   })
-  const headerText = computed<string>(() => data.value?.data?.header_text ?? '')
 </script>
 
 <template>
