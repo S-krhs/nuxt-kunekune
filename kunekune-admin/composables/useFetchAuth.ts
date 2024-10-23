@@ -6,6 +6,16 @@ export type UseFetchAuth = {
   immediate: boolean;
 }
 
+/**
+ * 
+ * @param opts immediate: 認証チェックを即時実施するかどうか
+ * @returns
+ *  status: 認証チェックの状況 success/error/pending/idle,
+ *  isPending: 認証チェック結果が未確定か,
+ *  signIn: サインインを実施,
+ *  signOut: サインアウトを実施,
+ *  executeUseFetchAuth: 認証チェックを実施
+ */
 export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
   // SSRの場合はリクエストにcookieを手動追加
@@ -23,9 +33,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
 
   // ステータス更新中フラグ
   const isPending = computed<boolean>(() => status.value === 'idle' || status.value === 'pending')
-
-  // 通信中フラグ
-  const { setTransmitting } = useLoading()
   
   // 認証エラー条件
   const isUnauthorized = (error: unknown) => {
@@ -41,11 +48,8 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
         throw(error)
       }
     } finally {
-      if (status.value === 'success') {
-        setSignedIn(true)
-      } else {
-        setSignedIn(false)
-      }
+      const isSucceeded = status.value === 'success'
+      setSignedIn(isSucceeded)
     }
   }
 
@@ -77,7 +81,6 @@ export const useFetchAuth = async (opts?: UseFetchAuth) => {
         credentials: 'same-origin',
       })
     } catch (error) {
-      console.error(error)
       throw(error)
     } finally {
       setSignedIn(false)

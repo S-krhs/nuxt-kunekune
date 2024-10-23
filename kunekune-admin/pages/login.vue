@@ -32,46 +32,30 @@ import { urlErrorPage } from '~/constants/paths';
   const { isSignedIn } = useSession()
 
   // ローディング表示
-  const { setTransmitting } = useLoading()
+  const { asyncWithLoading } = useLoading()
 
   // サインインエラー表示
   const signInError = ref<boolean>(false)
 
   // サインイン処理
-  const submitSignInForm = async (formEl: FormInstance | undefined) => {
-    try {
-      setTransmitting(true)
-      if (!formEl) {
-        signInError.value = true
-      } else {
-        await formEl.validate(async (valid) => {
-          if (valid) { await signIn(signInFormModel.value.email, signInFormModel.value.password) }
-          if (!isSignedIn.value) { signInError.value = true }
-        })
-      }
-    } catch (error) {
-      console.error (error)
-      await navigateTo(urlErrorPage)
-    } finally {
-      setTransmitting(false)
+  const _submitSignInFormSub = async (formEl: FormInstance | undefined) => {
+    if (!formEl) {
+      signInError.value = true
+    } else {
+      await formEl.validate(async (valid) => {
+        if (valid) { await signIn(signInFormModel.value.email, signInFormModel.value.password) }
+        if (!isSignedIn.value) { signInError.value = true }
+      })
     }
   }
+  const submitSignInForm = asyncWithLoading(_submitSignInFormSub)
 
   // サインアウト処理
-  const signOut = async () => {
-    try {
-      setTransmitting(true)
-      await _signOut()
-    } catch (error) {
-      console.error (error)
-      await navigateTo(urlErrorPage)
-    } finally {
-      setTransmitting(false)
-    }
-  }
+  const signOut = asyncWithLoading(_signOut)
 
   onBeforeMount(async () => {
-    await executeUseFetchAuth()
+    const execute = asyncWithLoading(executeUseFetchAuth)
+    await execute()
   })
 </script>
 

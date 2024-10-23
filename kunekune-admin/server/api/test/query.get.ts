@@ -6,17 +6,8 @@ export default defineEventHandler(async (event) => {
 
     // クエリ実行
     const { data, error, status } = await supabase
-      .from('profiles')
-      .select(`
-        tenant_id,
-        profile_history_id(
-          name,
-          introduction,
-          profile_image_id(
-            url
-          )
-        )
-      `)
+      .from('pub_v_profiles')
+      .select()
 
     console.log(data, error, status)
 

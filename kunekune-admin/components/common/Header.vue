@@ -10,18 +10,9 @@
   const iconSrc = "https://pbs.twimg.com/profile_images/1844529189346832384/6qLCsPk8_400x400.jpg"
   
   // サインアウト処理
-  const { setTransmitting } = useLoading()
-  const signOut = async () => {
-    try {
-      setTransmitting(true)
-      await _signOut()
-    } catch (error) {
-      console.error (error)
-      await navigateTo(urlErrorPage)
-    } finally {
-      setTransmitting(false)
-    }
-  }
+  const { asyncWithLoading } = useLoading()
+  const signOut = asyncWithLoading(_signOut)
+
 
 </script>
 <template>
