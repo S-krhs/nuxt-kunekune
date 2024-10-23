@@ -5,9 +5,9 @@
   const { data } = await useFetch<BaseApiResponse<Profile>>('/api/profile/get', {
     method: 'GET',
     credentials: 'same-origin',
+    immediate: true,
     server: false,
   })
-  const profile = computed<Profile | null>(() => data.value?.data ?? null)
 </script>
 
 <template>
@@ -21,14 +21,14 @@
       </div>
       <div class="profile">
         <div class="my-name">
-          <h4>{{ profile?.profile_name }}</h4>
+          <h4>{{ data?.data?.profile_name }}</h4>
         </div>
         <div class="my-icon-pos">
-          <img class="my-icon-img" :alt="profile?.image_alt ?? 'icon'" :src="profile?.image_url" />
+          <img class="my-icon-img" :alt="data?.data?.image_alt ?? 'icon'" :src="data?.data?.image_url" />
         </div>
         <div class="my-introduction">
           <h4>自己紹介</h4>
-          <p v-for="row in profile?.introduction.split('\\n')">{{ row }}</p>
+          <p v-for="row in data?.data?.introduction.split('\\n')">{{ row }}</p>
         </div>
       </div>
       <nav class="sidemenu-links">
