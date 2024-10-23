@@ -31,8 +31,8 @@
           <p v-for="row in profile?.introduction.split('\\n')">{{ row }}</p>
         </div>
       </div>
-      <nav>
-        <ul class="sidemenu-links">
+      <nav class="sidemenu-links">
+        <ul class="sidemenu-main-contents">
           <li class="headline">
             Main Contents
           </li>
@@ -51,8 +51,10 @@
           <li class="link">
             <NuxtLink to="/">リンク集</NuxtLink>
           </li>
+        </ul>
+        <ul class="sidemenu-external-links">
           <li class="headline">
-            Main Contents
+            Links
           </li>
           <li class="link">
             <a href="/">Twitter</a>
@@ -127,6 +129,9 @@
 .sidemenu-links {
   height: 100%;
   width: 100%;
+}
+.sidemenu-links ul {
+  margin-block: 32px;
 }
 .sidemenu-links li {
   list-style: none;
