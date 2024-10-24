@@ -56,7 +56,7 @@ import type { Profile } from '~/types/api/profile'
   flex-direction: column-reverse;
 }
 .loading-text {
-  margin-left: auto;
+  text-align: right;
   margin-right: 2rem;
   color: #ffffff;
   font-family: 'Noto Serif JP', serif;
