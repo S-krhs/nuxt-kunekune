@@ -3,15 +3,10 @@
   import type { Link } from '~/types/api/links'
   import type { Profile } from '~/types/api/profile'
 
-  const profile = ref<Profile | null>()
-  const links = ref<Link[] | null>()
-
-  const { axiosClient } = useAxiosClient()
-
-  onMounted(async () => {
-    profile.value = await axiosClient<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data)
-    links.value = await axiosClient<BaseApiResponse<Link[]>>('/api/profile/links').then(res => res.data.data)
-  })
+  const props = defineProps<{
+    profile: Profile | null
+    links: Link[]
+  }>()
 </script>
 
 <template>

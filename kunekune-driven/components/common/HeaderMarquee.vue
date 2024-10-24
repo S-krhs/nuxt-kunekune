@@ -1,13 +1,7 @@
 <script setup lang="ts">
-  import axios from 'axios'
-  import type { BaseApiResponse } from '~/types/api/base'
-  import type { Profile } from '~/types/api/profile'
-  
-  const headerText = ref<string | null>()
-  
-  onMounted(async () => {
-    headerText.value = await axios<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data?.header_text)
-  })
+  const props = defineProps<{
+    headerText: string
+  }>()
 </script>
 
 <template>
