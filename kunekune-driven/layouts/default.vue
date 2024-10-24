@@ -22,9 +22,11 @@ import type { Profile } from '~/types/api/profile'
 </script>
 
 <template>
-  <div class="super-extremely-huge-text" v-show="isLoading">クネクネ</div>
-  <div class="background-gif" v-show="!isLoading">
-    <div class="app default-layout">
+  <div class="background-gif">
+    <div class="loading-layout" v-show="isLoading">
+      <p class="loading-text">少女クネクネ中...</p>
+    </div>
+    <div class="app default-layout" v-show="!isLoading">
       <header>
         <CommonHeaderMarquee :header-text="profile?.header_text ?? ''" />
       </header>
@@ -39,14 +41,27 @@ import type { Profile } from '~/types/api/profile'
 </template>
 
 <style scoped>
-.super-extremely-huge-text {
-  font-size: 100dvh;
-  font-weight: 900;
-}
-
 .background-gif {
+  height: 100dvh;
+  width: 100dvw;
+
   background-color: black;
   background-image: url('@/assets/images/background/k-yuki10-ma.gif')
+}
+
+.loading-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.loading-text {
+  margin-left: auto;
+  margin-right: 2rem;
+  color: #ffffff;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 6rem;
+  font-weight: 600;
 }
 
 .app {
