@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     supabaseAnonKey: '',
     supabaseEmail: '',
     supabasePassword: '',
+    tenantId: '',
     public: {
       environmentName: ''
     }

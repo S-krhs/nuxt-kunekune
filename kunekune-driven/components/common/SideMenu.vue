@@ -6,6 +6,7 @@
   const props = defineProps<{
     profile: Profile | null
     links: Link[]
+    accessCount: string
   }>()
 </script>
 
@@ -14,7 +15,7 @@
     <div class="sidemenu-contents">
       <div class="access-counter">
         <p>あなたは</p>
-        <div class="access-counter-pos">12345678</div>
+        <div class="access-counter-pos">{{ accessCount }}</div>
         <p>人目の訪問者です</p>
       </div>
       <div class="profile">

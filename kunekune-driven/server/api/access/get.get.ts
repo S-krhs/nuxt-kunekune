@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
     // クエリ実行
     const { data, error, status } = await supabase
-      .from('pub_v_access_counts')
+      .from('access_counts')
       .select()
 
     console.log(data, error, status)
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     }
 
     event.node.res.statusCode = 200
-    event.node.res.end(JSON.stringify({ data: data ?? null, error: error, message: null }))
+    event.node.res.end(JSON.stringify({ data: data[0]?.access_count ?? 99999999, error: error, message: null }))
     
   } catch (error) {
     console.error(error)

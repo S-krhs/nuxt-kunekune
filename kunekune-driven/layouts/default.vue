@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { access } from '~/types/api/access'
 import type { BaseApiResponse } from '~/types/api/base'
 import type { Link } from '~/types/api/links'
 import type { Profile } from '~/types/api/profile'
@@ -9,14 +10,17 @@ import type { Profile } from '~/types/api/profile'
 
   const profile = ref<Profile | null>(null)
   const links = ref<Link[]>([])
+  const accessCount = ref<string>('99999999')
 
   const isLoading = ref<boolean>(true)
 
   const { axiosClient } = useAxiosClient()
 
   onBeforeMount(async () => {
+    // todo: 並列化・cookie取得の分離
     profile.value = await axiosClient<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data)
     links.value = await axiosClient<BaseApiResponse<Link[]>>('/api/profile/links').then(res => res.data.data ?? [])
+    accessCount.value = await axiosClient<BaseApiResponse<access>>('/api/access/get').then(res => String(res.data.data).padStart(8, '0') ?? '99999999')
     isLoading.value = false
   })
 </script>
@@ -31,7 +35,7 @@ import type { Profile } from '~/types/api/profile'
         <CommonHeaderMarquee :header-text="profile?.header_text ?? ''" />
       </header>
       <menu>
-        <CommonSideMenu :profile="profile" :links="links"/>
+        <CommonSideMenu :profile="profile" :links="links" :access-count="accessCount"/>
       </menu>
       <main>
         <NuxtPage />
