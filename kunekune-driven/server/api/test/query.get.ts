@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
       .from('pub_v_access_counts')
       .select()
 
-    console.log(data, error, status)
+    // console.log(data, error, status)
 
     if (error) {
       console.error('test-query.ts: ', error)

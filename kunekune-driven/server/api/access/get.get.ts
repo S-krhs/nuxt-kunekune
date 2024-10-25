@@ -9,14 +9,15 @@ export default defineEventHandler(async (event) => {
       .from('access_counts')
       .select()
 
-    console.log(data, error, status)
-
     if (error) {
       console.error('test-query.ts: ', error)
       event.node.res.statusCode = status
       event.node.res.end(JSON.stringify({ data: null, error: error, message: null }))
       return
     }
+
+    // 旧サイトにアクセスした場合のアクセスカウンタ対策でしばらくログアウトを追加
+    await supabase.auth.signOut()
 
     event.node.res.statusCode = 200
     event.node.res.end(JSON.stringify({ data: data[0]?.access_count ?? 99999999, error: error, message: null }))
