@@ -2,7 +2,7 @@
   import type { BaseApiResponse } from '~/types/api/base'
   import type { IllustWork } from '~/types/api/works'
 
-  const title = 'リンク集 | クネクネ駆動開発'
+  const title = '作品集 | クネクネ駆動開発'
   useServerHead({
     title: title,
     meta: [
@@ -25,7 +25,7 @@
 
 <template>
   <div class="page-wrapper">
-    <h1 class='page-title'>イラスト</h1>
+    <h1 class='page-title'>作品集</h1>
     <div class="works-wrapper">
       <div class="work-links">
         <NuxtLink v-for="work in works" :key="work.id" class="work-link" :to="{
