@@ -56,7 +56,7 @@
             <h3>その他リンク</h3>
           </li>
           <li class="link" v-for="link in links">
-            <a :href="link.external_link_url" target="_blank">{{ link.external_link_display }}</a>
+            <a :href="link.link_url" target="_blank" rel="noopener noreferrer">{{ link.link_name }}</a>
           </li>
         </ul>
       </nav>

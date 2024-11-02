@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
     // クエリ実行
     const { data, error, status } = await supabase
-      .from('pub_v_profile_links')
+      .from('pub_v_external_links')
       .select()
 
     // console.log(data, error, status)

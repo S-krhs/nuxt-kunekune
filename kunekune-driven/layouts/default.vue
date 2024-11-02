@@ -18,9 +18,9 @@ import type { Profile } from '~/types/api/profile'
 
   onBeforeMount(async () => {
     // todo: 並列化・cookie取得の分離
-    profile.value = await axiosClient<BaseApiResponse<Profile>>('/api/profile/get').then(res => res.data.data)
+    profile.value = await axiosClient<BaseApiResponse<Profile>>('/api/profile/profile').then(res => res.data.data)
     links.value = await axiosClient<BaseApiResponse<Link[]>>('/api/profile/links').then(res => res.data.data ?? [])
-    accessCount.value = await axiosClient<BaseApiResponse<access>>('/api/access/get').then(res => String(res.data.data).padStart(8, '0') ?? '99999999')
+    accessCount.value = await axiosClient<BaseApiResponse<access>>('/api/access/count').then(res => String(res.data.data).padStart(8, '0') ?? '99999999')
     isLoading.value = false
   })
 </script>
@@ -117,5 +117,6 @@ menu {
 main {
   grid-area: main;
   overflow-y: auto;
+  background-color: #dddddd;
 }
 </style>
