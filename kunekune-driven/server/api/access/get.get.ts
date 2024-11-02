@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // 旧サイトにアクセスした場合のアクセスカウンタ対策でしばらくログアウトを追加
-    await supabase.auth.signOut()
+    // await supabase.auth.signOut()
 
     event.node.res.statusCode = 200
     event.node.res.end(JSON.stringify({ data: data[0]?.access_count ?? 99999999, error: error, message: null }))
