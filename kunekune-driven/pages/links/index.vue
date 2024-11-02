@@ -2,8 +2,15 @@
 import type { BaseApiResponse } from '~/types/api/base';
 import type { Link } from '~/types/api/links';
 
-  const { axiosClient } = useAxiosClient()
+  const title = 'リンク集 | クネクネ駆動開発'
+  useServerHead({
+    title: title,
+    meta: [
+      { property: 'og:title', content: title },
+    ]
+  })
 
+  const { axiosClient } = useAxiosClient()
   const links = ref<Link[]>([])
 
   onMounted(async () => {
