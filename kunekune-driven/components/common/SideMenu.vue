@@ -50,6 +50,9 @@
           <li class="link">
             <NuxtLink to="/links">リンク集</NuxtLink>
           </li>
+          <li class="link">
+            <NuxtLink to="/bbs">BBS</NuxtLink>
+          </li>
         </ul>
         <ul class="sidemenu-external-links">
           <li class="headline">

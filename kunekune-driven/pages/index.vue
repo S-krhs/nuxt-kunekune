@@ -11,6 +11,7 @@
 
 <style scoped>
 .huuuuuuge {
+  color: black;
   font-size: 400px;
 }
 </style>

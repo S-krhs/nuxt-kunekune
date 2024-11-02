@@ -2,7 +2,7 @@
   import type { BaseApiResponse } from '~/types/api/base'
   import type { IllustWork } from '~/types/api/works'
 
-  const title = '日記 | クネクネ駆動開発'
+  const title = 'BBS | クネクネ駆動開発'
   useServerHead({
     title: title,
     meta: [
@@ -25,7 +25,7 @@
 
 <template>
   <div class="page-wrapper">
-    <h1 class='page-title'>日記</h1>
+    <h1 class='page-title'>BBS</h1>
     <h2 class="main-text">～ 準備中 ～</h2>
   </div>
 </template>
