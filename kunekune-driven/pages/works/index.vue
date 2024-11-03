@@ -60,6 +60,16 @@
   text-align: center;
   margin-bottom: 32px;
 }
+@media screen and (max-width: 768px){
+  .page-wrapper {
+    margin-inline: 8px;
+    margin-block: 20px;
+  }
+  .page-title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
 .works-wrapper {
   margin-bottom: 48px;
 }
@@ -74,6 +84,11 @@
 .work {
   width: 100%;
   aspect-ratio: 1;
+}
+@media screen and (max-width: 768px){
+  .work {
+    aspect-ratio: unset;
+  }
 }
 .work-image {
   max-width: 100%;

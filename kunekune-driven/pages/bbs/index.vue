@@ -39,6 +39,16 @@
   text-align: center;
   margin-bottom: 32px;
 }
+@media screen and (max-width: 768px){
+  .page-wrapper {
+    margin-inline: 8px;
+    margin-block: 20px;
+  }
+  .page-title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
 .main-text {
   text-align: center;
   margin-bottom: 40px;

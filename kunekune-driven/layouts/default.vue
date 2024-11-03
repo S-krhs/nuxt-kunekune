@@ -124,6 +124,7 @@ import type { Profile } from '~/types/api/profile'
 
 header {
   grid-area: header;
+  max-width: 100dvw;
 }
 menu {
   grid-area: sidemenu;

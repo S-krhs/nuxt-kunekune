@@ -38,7 +38,7 @@ import type { Link } from '~/types/api/links';
     </div>
     <div class="banner">
       <a href="https://www.sekaiseifuku-zzz.com/" title=" TVアニメ『「世界征服～謀略のズヴィズダー～」』オフィシャルサイト" target="_blank">
-        <img src="https://www.sekaiseifuku-zzz.com/img/bnr/bnr_480x100.gif" width="480" height="100" alt="世界征服～謀略のズヴィズダー～"></a>
+        <img src="https://www.sekaiseifuku-zzz.com/img/bnr/bnr_480x100.gif" alt="世界征服～謀略のズヴィズダー～"></a>
     </div>
   </div>
 </template>
@@ -51,6 +51,16 @@ import type { Link } from '~/types/api/links';
 .page-title {
   text-align: center;
   margin-bottom: 32px;
+}
+@media screen and (max-width: 768px){
+  .page-wrapper {
+    margin-inline: 8px;
+    margin-block: 20px;
+  }
+  .page-title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
 }
 .links-wrapper {
   margin-bottom: 48px;
@@ -77,5 +87,9 @@ import type { Link } from '~/types/api/links';
 }
 .banner {
   text-align: center;
+  max-width: 100%;
+}
+.banner > a, .banner > a > img {
+  max-width: 100%;
 }
 </style>
