@@ -1,5 +1,11 @@
 <script setup lang="ts">
-
+  const title = 'TOP | クネクネ駆動開発'
+  useHead({
+    title: title,
+    meta: [
+      { property: 'og:title', content: title },
+    ]
+  })
 </script>
 
 

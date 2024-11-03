@@ -3,7 +3,7 @@ import type { BaseApiResponse } from '~/types/api/base';
 import type { Link } from '~/types/api/links';
 
   const title = 'リンク集 | クネクネ駆動開発'
-  useServerHead({
+  useHead({
     title: title,
     meta: [
       { property: 'og:title', content: title },

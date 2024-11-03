@@ -3,7 +3,7 @@
   import type { IllustWork } from '~/types/api/works'
 
   const title = '日記 | クネクネ駆動開発'
-  useServerHead({
+  useHead({
     title: title,
     meta: [
       { property: 'og:title', content: title },
