@@ -37,8 +37,8 @@ import type { Link } from '~/types/api/links';
       <p >～ 当サイトはリンクフリーです ～</p>
     </div>
     <div class="banner">
-      <a href="http://www.sekaiseifuku-zzz.com/" title=" TVアニメ『「世界征服～謀略のズヴィズダー～」』オフィシャルサイト" target="_blank">
-        <img src="http://www.sekaiseifuku-zzz.com/img/bnr/bnr_480x100.gif" width="480" height="100" alt="世界征服～謀略のズヴィズダー～"></a>
+      <a href="https://www.sekaiseifuku-zzz.com/" title=" TVアニメ『「世界征服～謀略のズヴィズダー～」』オフィシャルサイト" target="_blank">
+        <img src="https://www.sekaiseifuku-zzz.com/img/bnr/bnr_480x100.gif" width="480" height="100" alt="世界征服～謀略のズヴィズダー～"></a>
     </div>
   </div>
 </template>
