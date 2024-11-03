@@ -77,15 +77,22 @@
   margin-bottom: 32px;
 }
 .work-link {
-  font-size: 2.4rem;
-  margin-left: 0.4rem;
+  font-size: 40px;
+  margin-left: 8px;
   text-decoration-thickness: 0.04rem;
+  word-wrap: break-word;
 }
 .work {
   width: 100%;
   aspect-ratio: 1;
 }
 @media screen and (max-width: 768px){
+  .work-link {
+    font-size: 32px;
+    margin-left: 6px;
+    text-decoration-thickness: 0.04rem;
+    word-wrap: break-word;
+  }
   .work {
     aspect-ratio: unset;
   }
