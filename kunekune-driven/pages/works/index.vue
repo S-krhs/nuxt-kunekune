@@ -2,11 +2,19 @@
   import type { BaseApiResponse } from '~/types/api/base'
   import type { IllustWork } from '~/types/api/works'
 
+  const config = useRuntimeConfig()
+  const cdnURL = config.app.cdnURL
   const title = '作品集 | クネクネ駆動開発'
+  const ogImagePath = `${cdnURL}/og-image.jpg`
+
+  const metaImagePath = ref<string>(ogImagePath)
+  
   useHead({
     title: title,
     meta: [
       { property: 'og:title', content: title },
+      { property: 'og:image', content: () => metaImagePath.value, },
+      { property: 'twitter:image', content: () => metaImagePath.value, },
     ]
   })
 
@@ -20,6 +28,7 @@
   })
   onUpdated(() => {
     displayWork.value = router.query.id ? works.value.find(elem => elem.id === Number(router.query.id)) : works.value.at(-1)
+    metaImagePath.value = (router.query.id ? works.value.find(elem => elem.id === Number(router.query.id))?.work_url : works.value.at(-1)?.work_url) ?? ogImagePath
   })
 </script>
 
